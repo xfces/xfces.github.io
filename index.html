@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b11">
+<meta name="description" content="Xfece + s · 云服务与实用工具导航">
+<title>Xfece + s</title>
+<style>
+  :root{
+    --bg:#080b11;
+    --panel:#0f141d;
+    --line:rgba(255,255,255,.08);
+    --text:#e6ebf2;
+    --muted:#8b97a8;
+    --blue:#4d90fe;
+    --green:#2ecc71;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{margin:0;padding:0;height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    margin:0;padding:20px;
+    padding-top:max(20px,env(safe-area-inset-top));
+    padding-bottom:max(20px,env(safe-area-inset-bottom));
+    padding-left:max(20px,env(safe-area-inset-left));
+    padding-right:max(20px,env(safe-area-inset-right));
+    background:var(--bg);color:var(--text);
+    min-height:100%;min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.6;position:relative;overflow-x:hidden;
+  }
+  /* 网格背景 */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,#000 35%,transparent 100%);
+    mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,#000 35%,transparent 100%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(520px 300px at 20% 15%,rgba(77,144,254,.14),transparent 70%),
+      radial-gradient(460px 280px at 88% 88%,rgba(245,182,66,.08),transparent 70%);
+  }
+
+  .card{
+    position:relative;z-index:1;width:100%;max-width:420px;
+    background:linear-gradient(180deg,#131a25,#0f141d);
+    border:1px solid var(--line);border-radius:20px;
+    padding:clamp(18px,5vw,22px) clamp(18px,5vw,22px) clamp(15px,4vw,18px);
+    box-shadow:0 18px 50px rgba(0,0,0,.5);
+    animation:up .5s ease both;
+  }
+  @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .card{animation:none}
+    .pulse{animation:none}
+  }
+
+  .head{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;letter-spacing:.3px}
+  .logo svg{width:24px;height:24px;flex:none}
+  .spacer{flex:1}
+  .status{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--muted)}
+  .pulse{
+    width:8px;height:8px;border-radius:50%;background:var(--green);flex:none;
+    box-shadow:0 0 0 0 rgba(46,204,113,.6);animation:pulse 2s infinite;
+  }
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(46,204,113,0)}100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+
+  .links{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;
+    padding:18px 0 16px;
+  }
+  .links a{color:var(--blue);text-decoration:none;font-size:14px;padding:6px 2px;display:inline-block}
+  .links a:hover{text-decoration:underline}
+
+  .foot{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    padding-top:14px;border-top:1px solid var(--line);
+  }
+  .copy{font-size:12px;color:#5d6878}
+  .gh{
+    width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:50%;
+    border:1px solid var(--line);background:var(--panel);color:var(--muted);transition:.2s;
+  }
+  .gh svg{width:18px;height:18px}
+  /* 仅对有真实指针的设备启用悬停，避免手机点完残留高亮 */
+  @media (hover:hover) and (pointer:fine){
+    .gh:hover{color:#fff;background:#24292f;border-color:#24292f;transform:translateY(-2px)}
+  }
+  .gh:active{transform:scale(.94);color:#fff;background:#24292f;border-color:#24292f}
+
+  /* 窄屏：状态字样换行，避免挤压 */
+  @media (max-width:380px){
+    .head{flex-wrap:wrap;gap:8px 10px}
+    .status{width:100%;padding-left:33px;font-size:13px}
+    .links{gap:6px 16px}
+  }
+  /* 横屏矮屏：贴上下边，避免被裁切 */
+  @media (max-height:460px){
+    body{align-items:flex-start}
+    .card{margin:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="head">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 2.6l7.4 4.27v8.54L12 19.68 4.6 15.41V6.87z" stroke="#f5b642" stroke-width="1.6"/>
+        <path d="M12 7.4l3.7 2.13v4.27L12 15.93l-3.7-2.13V9.53z" fill="#4d90fe" opacity=".85"/>
+      </svg>
+      Xfece + s
+    </div>
+    <div class="spacer"></div>
+    <div class="status"><span class="pulse"></span>全站服务正常</div>
+  </div>
+
+  <div class="links">
+    <a href="#">RSS 订阅</a>
+    <a href="#">网站地图</a>
+    <a href="#">客户端下载</a>
+  </div>
+
+  <div class="foot">
+    <span class="copy">© 2026 Xfece + s</span>
+    <a class="gh" href="https://github.com/xfces" target="_blank" rel="noopener" aria-label="GitHub 主页">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.07-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A7.995 7.995 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
